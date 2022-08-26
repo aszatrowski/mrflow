@@ -7,3 +7,4 @@
 	[ ] SNP retrieval from database
 	[ ] Automatic pruning for LD--perhaps worth exploring writing own LD algo since it won't require any sort of web interfacing
 	[ ] Conduct Two-Sample MR w/ summary statistic SNPs
+	[ ] Quick and efficient power analysis 
