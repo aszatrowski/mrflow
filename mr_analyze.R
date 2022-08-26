@@ -1,10 +1,13 @@
 mr_analyze <- function(exposure, outcome, p, ivw_only) {
-    exposures <- extract_instruments(exposure, p1 = p) # nolint
+    # extract exposures and outcomes from MRCIEU openGWAS
+    exposures <- TwoSampleMR::extract_instruments(exposure, p1 = p) # nolint
 
-    outcomes <- extract_outcome_data(snps = exposures$SNP, outcomes = outcome) # nolint
+    outcomes <- TwoSampleMR::extract_outcome_data(snps = exposures$SNP, outcomes = outcome) # nolint
 
-    harmonized <- harmonise_data(exposures, outcomes) # nolint
+    # harmonize phenotypes
+    harmonized <- TwoSampleMR::harmonise_data(exposures, outcomes) # nolint
 
+    # generate analyzable dataset
     rsid <- harmonized$SNP
     exposure_beta <- harmonized$beta.exposure
     exposure_se <- harmonized$se.exposure
@@ -25,14 +28,15 @@ mr_analyze <- function(exposure, outcome, p, ivw_only) {
     byse <- as.numeric(outcome_se)
     snps <- rsid
 
+    # Run MR
     input <- mr_input(bx = bx, bxse = bxse, by = by, byse = byse, snps = snps) #nolint
-    mr_ivw_result <- MendelianRandomization::mr_ivw(input)
-    mr_all_result <- MendelianRandomization::mr_allmethods(input)
 
     if (ivw_only == TRUE) {
+        mr_ivw_result <- MendelianRandomization::mr_ivw(input)
         print(mr_ivw_result)
-    }
-    else {
+    } else {
+        mr_all_result <- MendelianRandomization::mr_allmethods(input)
         print(mr_all_result)
+
     }
 }
