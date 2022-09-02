@@ -1,4 +1,15 @@
-mr_analyze <- function(exposure, outcome, p, ivw_only) {
+#' Quickly run two-sample MR analyses of summary statistic data
+#'
+#' @param exposure A summary-statistic GWAS dataset, passed as a string, to be used as the exposure
+#' @param outcome A summary-statistic GWAS dataset, passed as a string, to be used as the outcome
+#' @param p p-value threshold for SNP retrieval from datasets
+#'
+#' @return A chart of MR results from various methods (an S4 object).
+#' @export
+#'
+#' @examples
+#' mr_analyze("prot-a-16", "finn-b-I9_CARDMYO", 1e-06)
+mr_analyze <- function(exposure, outcome, p) {
     # extract exposures and outcomes from MRCIEU openGWAS
     exposures <- TwoSampleMR::extract_instruments(exposure, p1 = p) # nolint
 
@@ -29,14 +40,9 @@ mr_analyze <- function(exposure, outcome, p, ivw_only) {
     snps <- rsid
 
     # Run MR
-    input <- mr_input(bx = bx, bxse = bxse, by = by, byse = byse, snps = snps) #nolint
+    input <- MendelianRandomization::mr_input(bx = bx, bxse = bxse, by = by, byse = byse, snps = snps) #nolint
 
-    if (ivw_only == TRUE) {
-        mr_ivw_result <- MendelianRandomization::mr_ivw(input)
-        print(mr_ivw_result)
-    } else {
-        mr_all_result <- MendelianRandomization::mr_allmethods(input)
-        print(mr_all_result)
+    mr_all_result <- MendelianRandomization::mr_allmethods(input)
+    print(mr_all_result)
 
-    }
 }

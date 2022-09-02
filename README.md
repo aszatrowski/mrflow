@@ -8,7 +8,7 @@
 	* Interconversion between gene symbols, synonyms, ENSGs, Entrez, etc
 	* SNP retrieval from database
 	* Automatic pruning for LD--perhaps worth exploring writing own LD algo since it won't require any sort of web interfacing
-	* Conduct Two-Sample MR w/ summary statistic SNPs
+	* Conduct Two-Sample MR w/ summary statistic SNPs ([`mr_analyze()`](https://github.com/aszatrowski/mrflow/blob/master/R/mr_analyze.R))
 		* Fix "unknown or uninitialized column `trait`" error
 	* Quick and efficient power analysis 
 
